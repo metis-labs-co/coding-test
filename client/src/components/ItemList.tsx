@@ -14,12 +14,22 @@ export default function ItemList() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     setLoading(true);
     setError(null);
     fetchItems(search)
-      .then(setItems)
-      .catch((e: Error) => setError(e.message))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        if (!cancelled) setItems(data);
+      })
+      .catch((e: Error) => {
+        if (!cancelled) setError(e.message);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [search]);
 
   return (
