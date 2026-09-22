@@ -11,7 +11,10 @@ app.get("/api/items", (req, res) => {
 
   // Broad queries hit more rows, so they take longer to resolve
   const latency = Math.max(100, 900 - search.length * 200);
-  setTimeout(() => res.json(result), latency);
+  setTimeout(() => {
+    console.log(`GET /api/items search="${search}" -> ${result.length} items (${latency}ms)`);
+    res.json(result);
+  }, latency);
 });
 
 app.listen(PORT, () => {
