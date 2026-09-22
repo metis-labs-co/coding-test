@@ -2,7 +2,7 @@ import express from "express";
 import { items } from "./data.js";
 
 const app = express();
-const PORT = 3001;
+const PORT = 3000;
 
 app.get("/api/items", (req, res) => {
   const search = typeof req.query.search === "string" ? req.query.search : "";
